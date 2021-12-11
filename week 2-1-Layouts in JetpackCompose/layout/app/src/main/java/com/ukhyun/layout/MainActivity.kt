@@ -16,7 +16,6 @@ import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.Stable
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.*
 import coil.compose.rememberImagePainter
 import com.ukhyun.layout.ui.theme.LayoutTheme
-import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,12 +92,12 @@ fun MyOwnColumn(
     modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
-    Layout(content = content, modifier = modifier) { measureable, constraints ->
+    Layout(content = content, modifier = modifier) { measurable, constraints ->
 
-        val placeables = measureable.map { measurable -> measurable.measure(constraints) }
+        val placeable = measurable.map { measurable -> measurable.measure(constraints) }
         var yPosition = 0
         layout(constraints.maxWidth, constraints.maxHeight) {
-            placeables.forEach {
+            placeable.forEach {
                 it.placeRelative(x = 0, y = yPosition)
                 yPosition += it.height
             }
@@ -201,8 +199,7 @@ fun BodyContent(modifier: Modifier = Modifier) {
 //    }
     Row(modifier = modifier
         .background(color = Color.LightGray)
-        .padding(16.dp)
-        .size(200.dp)
+        .padding(8.dp)
         .horizontalScroll(rememberScrollState())) {
 
         StaggeredGrid(modifier = modifier, rows = 3) {

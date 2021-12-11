@@ -49,17 +49,18 @@ fun ConstraintLayoutContent() {
             Text("Button 1")
         }
 
-        Button(onClick = { /*TODO*/ }, modifier = Modifier.constrainAs(button2) {
-            top.linkTo(parent.top, margin = 16.dp)
-            start.linkTo(button1.end, margin = 16.dp)
-        }) {
-            Text(text = "Button 2")
-        }
-
         Text("Text", Modifier.constrainAs(text) {
             top.linkTo(button1.bottom, margin = 16.dp)
             centerAround(button1.end)
         })
+
+        val barrier = createEndBarrier(button1, text)
+        Button(onClick = { /*TODO*/ }, modifier = Modifier.constrainAs(button2) {
+            top.linkTo(parent.top, margin = 16.dp)
+            start.linkTo(barrier )
+        }) {
+            Text(text = "Button 2")
+        }
     }
 }
 
